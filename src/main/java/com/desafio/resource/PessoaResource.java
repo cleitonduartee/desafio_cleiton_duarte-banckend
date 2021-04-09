@@ -13,7 +13,7 @@ public class PessoaResource {
 
 	@GetMapping
 	public ResponseEntity<Pessoa> burcar(){
-		Pessoa p1 = new Pessoa(1, "Cleiton", "67 99999-9999");
+		Pessoa p1 = new Pessoa(null, "Cleiton", "67 99999-9999");
 		return ResponseEntity.ok().body(p1);
 	}
 }
