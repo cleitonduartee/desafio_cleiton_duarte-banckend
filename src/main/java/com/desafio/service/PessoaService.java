@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.desafio.domain.Pessoa;
 import com.desafio.repository.PessoaRepository;
+import com.desafio.service.exception.NotFoundResourceException;
 
 @Service
 public class PessoaService {
@@ -16,6 +17,6 @@ public class PessoaService {
 
 	public Pessoa buscarPorId(Integer id) {
 		Optional<Pessoa> p1 = repo.findById(id);
-		return p1.get();
+		return p1.orElseThrow(()-> new NotFoundResourceException("Recurso informado não encontrado. ID: "+id));
 	}
 }
