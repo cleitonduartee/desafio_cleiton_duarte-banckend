@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.desafio.domain.enuns.EstadoUtensilio;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Utensilio implements Serializable {
@@ -81,6 +82,7 @@ public class Utensilio implements Serializable {
 		this.disponivel = disponivel;
 	}
 	
+	@JsonIgnore
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
