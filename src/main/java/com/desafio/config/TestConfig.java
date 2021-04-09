@@ -28,12 +28,17 @@ public class TestConfig implements CommandLineRunner {
 		Pessoa p3 = new Pessoa(null, "Pedro de Jesus", "67997777777");
 		Pessoa p4 = new Pessoa(null, "José Augusto", "679789456123");
 		
+		
+		Utensilio u1 = new Utensilio(null, "Mesa de Cozinha", "", EstadoUtensilio.USADO, true,p2);
+		Utensilio u2 = new Utensilio(null, "Sofá", "", EstadoUtensilio.USADO, true,p3);
+		Utensilio u3 = new Utensilio(null, "Cadeira de Plastico", "", EstadoUtensilio.NOVO, true,p1);
+		
+		p1.AddUtensilio(u3);
+		p2.AddUtensilio(u1);
+		p3.AddUtensilio(u2);
+		
+		
 		pessoaRepo.saveAll(Arrays.asList(p1,p2,p3,p4));
-		
-		Utensilio u1 = new Utensilio(null, "Mesa de Cozinha", "", EstadoUtensilio.USADO, true);
-		Utensilio u2 = new Utensilio(null, "Sofá", "", EstadoUtensilio.USADO, true);
-		Utensilio u3 = new Utensilio(null, "Cadeira de Plastico", "", EstadoUtensilio.NOVO, true);
-		
 		UtensilioRepo.saveAll(Arrays.asList(u1,u2,u3));
 		
 	}

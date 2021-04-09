@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.desafio.domain.enuns.EstadoUtensilio;
 
@@ -21,17 +23,22 @@ public class Utensilio implements Serializable {
 	private Integer estado;
 	private Boolean disponivel;
 	
+	@ManyToOne
+	@JoinColumn(name = "pessoa_id")
+	private Pessoa pessoa;
+	
 	public Utensilio() {
 		
 	}
 
-	public Utensilio(Integer id, String nome, String urlImagem, EstadoUtensilio estado, Boolean disponivel) {
+	public Utensilio(Integer id, String nome, String urlImagem, EstadoUtensilio estado, Boolean disponivel,Pessoa pessoa) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.urlImagem = urlImagem;
 		this.estado = estado==null ? null : estado.getCod();
 		this.disponivel = disponivel;
+		this.pessoa = pessoa;
 	}
 
 	public Integer getId() {
@@ -73,6 +80,14 @@ public class Utensilio implements Serializable {
 	public void setDisponivel(Boolean disponivel) {
 		this.disponivel = disponivel;
 	}
+	
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
 
 	@Override
 	public int hashCode() {
@@ -98,6 +113,8 @@ public class Utensilio implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 	
 
 }

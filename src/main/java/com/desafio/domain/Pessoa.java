@@ -1,11 +1,14 @@
 package com.desafio.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Pessoa implements Serializable {
@@ -16,6 +19,9 @@ public class Pessoa implements Serializable {
 	private Integer id;
 	private String nome;
 	private String telefone;
+	
+	@OneToMany(mappedBy = "pessoa")
+	private List<Utensilio> utensilios = new ArrayList<>();
 	
 	public Pessoa() {		
 	}
@@ -50,6 +56,13 @@ public class Pessoa implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
+	public List<Utensilio> getUtensilios() {
+		return utensilios;
+	}
+
+	public void AddUtensilio(Utensilio utensilio) {
+		utensilios.add(utensilio);
+	}
 
 	@Override
 	public int hashCode() {
@@ -75,5 +88,7 @@ public class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
+
+
 	
 }
