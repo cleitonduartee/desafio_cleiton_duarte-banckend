@@ -7,13 +7,19 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import com.desafio.domain.Pessoa;
+import com.desafio.domain.Utensilio;
+import com.desafio.domain.enuns.EstadoUtensilio;
 import com.desafio.repository.PessoaRepository;
+import com.desafio.repository.UtensilioRepository;
 
 @Configuration
 public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private PessoaRepository pessoaRepo;
+	
+	@Autowired
+	private UtensilioRepository UtensilioRepo;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -24,6 +30,11 @@ public class TestConfig implements CommandLineRunner {
 		
 		pessoaRepo.saveAll(Arrays.asList(p1,p2,p3,p4));
 		
+		Utensilio u1 = new Utensilio(null, "Mesa de Cozinha", "", EstadoUtensilio.USADO, true);
+		Utensilio u2 = new Utensilio(null, "Sofá", "", EstadoUtensilio.USADO, true);
+		Utensilio u3 = new Utensilio(null, "Cadeira de Plastico", "", EstadoUtensilio.NOVO, true);
+		
+		UtensilioRepo.saveAll(Arrays.asList(u1,u2,u3));
 		
 	}
 
