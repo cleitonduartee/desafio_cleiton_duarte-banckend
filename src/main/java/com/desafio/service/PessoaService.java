@@ -33,12 +33,13 @@ public class PessoaService {
 	public Pessoa atualizar(Integer id, Pessoa pessoaUpdade) {
 		Pessoa pessoa = buscarPorId(id);
 		updateData(pessoa, pessoaUpdade);
+		repo.save(pessoa);
 		return pessoa;
 	}
 	private void updateData (Pessoa pessoa, Pessoa pessoaUpdate) {
 		try {
 			pessoa.setNome(pessoaUpdate.getNome());
-			pessoa.setTelefone(pessoa.getTelefone());
+			pessoa.setTelefone(pessoaUpdate.getTelefone());
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 		}
