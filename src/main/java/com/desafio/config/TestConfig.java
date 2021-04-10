@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.desafio.domain.Pessoa;
 import com.desafio.domain.Utensilio;
@@ -13,6 +14,7 @@ import com.desafio.repository.PessoaRepository;
 import com.desafio.repository.UtensilioRepository;
 
 @Configuration
+@Profile(value = "test")
 public class TestConfig implements CommandLineRunner {
 
 	@Autowired
