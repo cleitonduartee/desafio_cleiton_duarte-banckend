@@ -37,4 +37,8 @@ public class PessoaService {
 		pessoa.setNome(pessoaUpdate.getNome());
 		pessoa.setTelefone(pessoa.getTelefone());
 	}
+	public void cadastrar(Pessoa newPessoa) {
+		newPessoa.setId(null);		
+		repo.save(newPessoa);		
+	}
 }
