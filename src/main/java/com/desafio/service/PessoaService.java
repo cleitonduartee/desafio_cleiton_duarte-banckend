@@ -28,4 +28,13 @@ public class PessoaService {
 		List<PessoaDTO>listDTO = list.stream().map((obj)-> new PessoaDTO(obj)).collect(Collectors.toList());
 		return listDTO;
 	}
+	public Pessoa atualizar(Integer id, Pessoa pessoaUpdade) {
+		Pessoa pessoa = buscarPorId(id);
+		updateData(pessoa, pessoaUpdade);
+		return pessoa;
+	}
+	private void updateData (Pessoa pessoa, Pessoa pessoaUpdate) {
+		pessoa.setNome(pessoaUpdate.getNome());
+		pessoa.setTelefone(pessoa.getTelefone());
+	}
 }
