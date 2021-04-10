@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.desafio.domain.Utensilio;
 import com.desafio.repository.UtensilioRepository;
+import com.desafio.service.exception.DataIntegrityException;
 import com.desafio.service.exception.NotFoundResourceException;
 
 @Service
@@ -45,8 +47,14 @@ public class UtensilioService {
 		}
 	}
 	public void cadastrar(Utensilio newUtensilio) {
-		newUtensilio.setId(null);		
-		repo.save(newUtensilio);		
+		try {
+			newUtensilio.setId(null);		
+			repo.save(newUtensilio);
+		} catch (DataIntegrityViolationException e) {			
+			throw new DataIntegrityException("Pessoa não pode ser NULL. Informe uma pessoa para salvar o Utensilio");
+		}	
+		
+		
 	}
 	public void deletar(Integer id) {		
 		try {

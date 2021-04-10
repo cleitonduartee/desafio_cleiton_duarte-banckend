@@ -46,7 +46,8 @@ public class UtensilioResource {
 		return ResponseEntity.ok().body(UtensilioUpdate);
 	}
 	@PostMapping
-	public ResponseEntity<Void> atualizar(@RequestBody Utensilio utensilio){
+	public ResponseEntity<Void> cadastrar(@RequestBody Utensilio utensilio){
+		System.out.println(utensilio.getPessoa()+"- cadastrar");
 		service.cadastrar(utensilio);	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(utensilio.getId()).toUri();
 		return ResponseEntity.created(uri).build();
