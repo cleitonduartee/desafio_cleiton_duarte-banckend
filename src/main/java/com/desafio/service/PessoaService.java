@@ -5,11 +5,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.desafio.domain.Pessoa;
 import com.desafio.domain.dto.PessoaDTO;
 import com.desafio.repository.PessoaRepository;
+import com.desafio.service.exception.DataIntegrityException;
 import com.desafio.service.exception.NotFoundResourceException;
 
 @Service
@@ -34,14 +36,22 @@ public class PessoaService {
 		return pessoa;
 	}
 	private void updateData (Pessoa pessoa, Pessoa pessoaUpdate) {
-		pessoa.setNome(pessoaUpdate.getNome());
-		pessoa.setTelefone(pessoa.getTelefone());
+		try {
+			pessoa.setNome(pessoaUpdate.getNome());
+			pessoa.setTelefone(pessoa.getTelefone());
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
 	}
 	public void cadastrar(Pessoa newPessoa) {
 		newPessoa.setId(null);		
 		repo.save(newPessoa);		
 	}
 	public void deletar(Integer id) {		
-		repo.deleteById(id);		
+		try {
+			repo.deleteById(id);	
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir a pessoa pois existe utensilios vinculado.");
+		}	
 	}
 }
