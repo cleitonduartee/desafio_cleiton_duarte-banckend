@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import com.desafio.domain.Utensilio;
@@ -36,7 +37,7 @@ public class UtensilioService {
 			utensilio.setDisponivel(utensilioUpdate.getDisponivel());
 			utensilio.setEstado(utensilioUpdate.getEstado());
 			utensilio.setUrlImagem(utensilioUpdate.getUrlImagem());
-		} catch (RuntimeException e) {
+		} catch (HttpMessageNotReadableException e) {
 			e.printStackTrace();
 		}
 	}
