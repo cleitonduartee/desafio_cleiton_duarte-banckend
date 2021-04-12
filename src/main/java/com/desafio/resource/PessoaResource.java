@@ -31,7 +31,7 @@ public class PessoaResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Pessoa> burcarPorId(@PathVariable Integer id){
 		Pessoa p1 = service.buscarPorId(id);
-		return ResponseEntity.ok().body(p1);
+		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(p1);
 	}
 	
 	@GetMapping
@@ -44,18 +44,18 @@ public class PessoaResource {
 	public ResponseEntity<PessoaDTO> atualizar(@PathVariable Integer id, @RequestBody Pessoa PessoaUpdate){
 		PessoaUpdate = service.atualizar(id, PessoaUpdate);
 		PessoaDTO pessoaDTO = new PessoaDTO(PessoaUpdate);
-		return ResponseEntity.ok().body(pessoaDTO);
+		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(pessoaDTO);
 	}
 	@PostMapping
 	public ResponseEntity<Void> atualizar(@RequestBody Pessoa pessoa){
 		service.cadastrar(pessoa);	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(pessoa.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(uri).header("Access-Control-Allow-Origin", "*").build();
 	}
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Integer id){
 		service.deletar(id);		
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.noContent().header("Access-Control-Allow-Origin", "*").build();
 	}
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<PessoaDTO>> burcarComPaginacao(
@@ -67,6 +67,6 @@ public class PessoaResource {
 			){
 		Page<Pessoa> listPage  = service.buscarComPaginacao(page, size,direction,orderBy);
 		Page<PessoaDTO> listPageDTO =  listPage.map((obj)-> new PessoaDTO(obj));
-		return ResponseEntity.ok().body(listPageDTO);
+		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(listPageDTO);
 	}
 }
