@@ -55,7 +55,7 @@ public class PessoaResource {
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Integer id){
 		service.deletar(id);		
-		return ResponseEntity.noContent().header("Access-Control-Allow-Origin", "*").build();
+		return ResponseEntity.noContent().header("strict-origin-when-cross-origin", "*").build();
 	}
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<PessoaDTO>> burcarComPaginacao(
