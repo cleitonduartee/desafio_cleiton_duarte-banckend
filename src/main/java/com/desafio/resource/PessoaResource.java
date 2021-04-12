@@ -37,7 +37,7 @@ public class PessoaResource {
 	@GetMapping
 	public ResponseEntity<List<PessoaDTO>> burcarTodos(){
 		List<PessoaDTO> list  = service.buscarTodos();		
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(list);
 	}
 	
 	@PutMapping(value = "/{id}")
