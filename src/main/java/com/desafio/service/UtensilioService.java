@@ -42,6 +42,7 @@ public class UtensilioService {
 			utensilio.setDisponivel(utensilioUpdate.getDisponivel());
 			utensilio.setEstado(utensilioUpdate.getEstado());
 			utensilio.setUrlImagem(utensilioUpdate.getUrlImagem());
+			
 		} catch (HttpMessageNotReadableException e) {
 			e.printStackTrace();
 		}

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class PessoaResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Pessoa> burcarPorId(@PathVariable Integer id){
 		Pessoa p1 = service.buscarPorId(id);
-		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(p1);
+		return ResponseEntity.ok().body(p1);
 	}
 	
 	@GetMapping
@@ -39,23 +40,25 @@ public class PessoaResource {
 		List<PessoaDTO> list  = service.buscarTodos();		
 		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(list);
 	}
-	
+	@CrossOrigin
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<PessoaDTO> atualizar(@PathVariable Integer id, @RequestBody Pessoa PessoaUpdate){
 		PessoaUpdate = service.atualizar(id, PessoaUpdate);
 		PessoaDTO pessoaDTO = new PessoaDTO(PessoaUpdate);
-		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(pessoaDTO);
+		return ResponseEntity.ok().body(pessoaDTO);
 	}
+	@CrossOrigin
 	@PostMapping
 	public ResponseEntity<Void> atualizar(@RequestBody Pessoa pessoa){
 		service.cadastrar(pessoa);	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(pessoa.getId()).toUri();
-		return ResponseEntity.created(uri).header("Access-Control-Allow-Origin", "*").build();
+		return ResponseEntity.created(uri).build();
 	}
+	@CrossOrigin
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Integer id){
 		service.deletar(id);		
-		return ResponseEntity.noContent().header("strict-origin-when-cross-origin", "*").build();
+		return ResponseEntity.noContent().build();
 	}
 	@GetMapping(value = "/page")
 	public ResponseEntity<Page<PessoaDTO>> burcarComPaginacao(

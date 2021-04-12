@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,15 +37,16 @@ public class UtensilioResource {
 	@GetMapping
 	public ResponseEntity<List<Utensilio>> burcarTodos(){
 		List<Utensilio> list  = service.buscarTodos();		
-		return ResponseEntity.ok().body(list);
+		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(list);
 	}
-	
+	@CrossOrigin
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Utensilio> atualizar(@PathVariable Integer id, @RequestBody Utensilio UtensilioUpdate){
 		System.out.println(UtensilioUpdate.getEstado());
 		UtensilioUpdate = service.atualizar(id, UtensilioUpdate);		
 		return ResponseEntity.ok().body(UtensilioUpdate);
 	}
+	@CrossOrigin
 	@PostMapping
 	public ResponseEntity<Void> cadastrar(@RequestBody Utensilio utensilio){
 		System.out.println(utensilio.getPessoa()+"- cadastrar");
@@ -52,6 +54,7 @@ public class UtensilioResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(utensilio.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	@CrossOrigin
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Integer id){
 		service.deletar(id);		
