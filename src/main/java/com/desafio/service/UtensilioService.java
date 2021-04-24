@@ -11,7 +11,9 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
+import com.desafio.domain.Pessoa;
 import com.desafio.domain.Utensilio;
+import com.desafio.domain.dto.UtensilioDtoInput;
 import com.desafio.repository.UtensilioRepository;
 import com.desafio.service.exception.DataIntegrityException;
 import com.desafio.service.exception.NotFoundResourceException;
@@ -21,6 +23,9 @@ public class UtensilioService {
 
 	@Autowired
 	private UtensilioRepository repo;
+	
+	@Autowired
+	private PessoaService servicePessoa;
 
 	public Utensilio buscarPorId(Integer id) {
 		Optional<Utensilio> p1 = repo.findById(id);
@@ -30,13 +35,13 @@ public class UtensilioService {
 		List<Utensilio> list = repo.findAll();		
 		return list;
 	}
-	public Utensilio atualizar(Integer id, Utensilio utensilioUpdate) {
+	public Utensilio atualizar(Integer id, UtensilioDtoInput utensilioUpdate) {
 		Utensilio utensilio = buscarPorId(id);
 		updateData(utensilio, utensilioUpdate);
 		repo.save(utensilio);
 		return utensilio;
 	}
-	private void updateData (Utensilio utensilio, Utensilio utensilioUpdate) {
+	private void updateData (Utensilio utensilio, UtensilioDtoInput utensilioUpdate) {
 		try {
 			utensilio.setNome(utensilioUpdate.getNome());
 			utensilio.setDisponivel(utensilioUpdate.getDisponivel());
@@ -47,10 +52,11 @@ public class UtensilioService {
 			e.printStackTrace();
 		}
 	}
-	public void cadastrar(Utensilio newUtensilio) {
+	public Utensilio cadastrar(UtensilioDtoInput newUtensilio) {
 		try {
-			newUtensilio.setId(null);		
-			repo.save(newUtensilio);
+			Utensilio utensilio = converteUtensilioDtoInput(newUtensilio);	
+			System.out.println("Service-CAdastrar: "+utensilio);
+			return repo.save(utensilio);
 		} catch (DataIntegrityViolationException e) {			
 			throw new DataIntegrityException("Pessoa não pode ser NULL. Informe uma pessoa para salvar o Utensilio");
 		}	
@@ -67,5 +73,10 @@ public class UtensilioService {
 	public Page<Utensilio> buscarComPaginacao (Integer page, Integer size, String direction, String orderBy){
 		PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	private Utensilio converteUtensilioDtoInput(UtensilioDtoInput objDto) {
+		Pessoa pessoa = servicePessoa.buscarPorId(objDto.getPessoa_id());
+		Utensilio utensilio = new Utensilio(null, objDto.getNome(),objDto.getUrlImagem(),objDto.getEstado(),objDto.getDisponivel(), pessoa);
+		return utensilio;
 	}
 }

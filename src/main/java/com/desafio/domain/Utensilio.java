@@ -39,7 +39,7 @@ public class Utensilio implements Serializable {
 		this.estado = estado==null ? null : estado.getCod();
 		this.disponivel = disponivel;
 		this.pessoa = pessoa;
-	}
+	}	
 
 	public Integer getId() {
 		return id;
@@ -112,9 +112,6 @@ public class Utensilio implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	
-	
+	}	
 
 }

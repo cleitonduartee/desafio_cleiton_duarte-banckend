@@ -2,6 +2,7 @@ package com.desafio.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.desafio.domain.Utensilio;
+import com.desafio.domain.dto.UtensilioDtoInput;
+import com.desafio.domain.dto.UtensilioDtoOutput;
 import com.desafio.service.UtensilioService;
 
 @RestController
@@ -29,28 +32,30 @@ public class UtensilioResource {
 	private UtensilioService service;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Utensilio> burcarPorId(@PathVariable Integer id){
-		Utensilio p1 = service.buscarPorId(id);
-		return ResponseEntity.ok().body(p1);
+	public ResponseEntity<UtensilioDtoOutput> burcarPorId(@PathVariable Integer id){
+		Utensilio utensilio = service.buscarPorId(id);
+		UtensilioDtoOutput utensilioDtoOutput = new UtensilioDtoOutput(utensilio);
+		return ResponseEntity.ok().body(utensilioDtoOutput);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Utensilio>> burcarTodos(){
-		List<Utensilio> list  = service.buscarTodos();		
-		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(list);
+	public ResponseEntity<List<UtensilioDtoOutput>> burcarTodos(){
+		List<Utensilio> list  = service.buscarTodos();	
+		List<UtensilioDtoOutput> listDto = list.stream().map(x -> new UtensilioDtoOutput(x)).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(listDto);
 	}
 	@CrossOrigin
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Utensilio> atualizar(@PathVariable Integer id, @RequestBody Utensilio UtensilioUpdate){
-		System.out.println(UtensilioUpdate.getEstado());
-		UtensilioUpdate = service.atualizar(id, UtensilioUpdate);		
-		return ResponseEntity.ok().body(UtensilioUpdate);
+	public ResponseEntity<UtensilioDtoOutput> atualizar(@PathVariable Integer id, @RequestBody UtensilioDtoInput utensilioUpdate){
+		Utensilio utensilio = service.atualizar(id, utensilioUpdate);
+		UtensilioDtoOutput utensilioDtoOutput = new UtensilioDtoOutput(utensilio);
+		return ResponseEntity.ok().body(utensilioDtoOutput);
 	}
 	@CrossOrigin
 	@PostMapping
-	public ResponseEntity<Void> cadastrar(@RequestBody Utensilio utensilio){
-		System.out.println(utensilio.getPessoa()+"- cadastrar");
-		service.cadastrar(utensilio);	
+	public ResponseEntity<Void> cadastrar(@RequestBody UtensilioDtoInput newUtensilio){
+		Utensilio utensilio = service.cadastrar(newUtensilio);	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(utensilio.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

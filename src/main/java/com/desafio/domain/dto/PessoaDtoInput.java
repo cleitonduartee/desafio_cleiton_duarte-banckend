@@ -2,19 +2,16 @@ package com.desafio.domain.dto;
 
 import java.io.Serializable;
 
-import com.desafio.domain.Pessoa;
-
-public class PessoaDTO implements Serializable {
+public class PessoaDtoInput implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;	
 	private String nome;
 	private String telefone;
 	
-	public PessoaDTO (Pessoa obj) {
-		id = obj.getId();
-		nome = obj.getNome();
-		telefone = obj.getTelefone();
+	public PessoaDtoInput (String nome, String telefone) {		
+		this.nome = nome;
+		this.telefone = telefone;
 	}
 
 	public Integer getId() {

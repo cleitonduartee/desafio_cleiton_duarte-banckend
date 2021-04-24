@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.desafio.domain.Pessoa;
-import com.desafio.domain.dto.PessoaDTO;
+import com.desafio.domain.dto.PessoaDtoInput;
+import com.desafio.domain.dto.PessoaDtoOutput;
 import com.desafio.service.PessoaService;
 
 @RestController
@@ -30,27 +31,27 @@ public class PessoaResource {
 	private PessoaService service;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Pessoa> burcarPorId(@PathVariable Integer id){
-		Pessoa p1 = service.buscarPorId(id);
-		return ResponseEntity.ok().body(p1);
+	public ResponseEntity<PessoaDtoOutput> burcarPorId(@PathVariable Integer id){
+		Pessoa pessoa = service.buscarPorId(id);
+		PessoaDtoOutput pessoaDtoOutput = new PessoaDtoOutput(pessoa);
+		return ResponseEntity.ok().body(pessoaDtoOutput);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<PessoaDTO>> burcarTodos(){
-		List<PessoaDTO> list  = service.buscarTodos();		
+	public ResponseEntity<List<PessoaDtoOutput>> burcarTodos(){
+		List<PessoaDtoOutput> list  = service.buscarTodos();		
 		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(list);
-	}
-	@CrossOrigin
+	}	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<PessoaDTO> atualizar(@PathVariable Integer id, @RequestBody Pessoa PessoaUpdate){
-		PessoaUpdate = service.atualizar(id, PessoaUpdate);
-		PessoaDTO pessoaDTO = new PessoaDTO(PessoaUpdate);
-		return ResponseEntity.ok().body(pessoaDTO);
+	public ResponseEntity<PessoaDtoOutput> atualizar(@PathVariable Integer id, @RequestBody PessoaDtoInput PessoaUpdate){
+		Pessoa pessoa = service.atualizar(id, PessoaUpdate);
+		PessoaDtoOutput pessoaDtoOutput = new PessoaDtoOutput(pessoa);
+		return ResponseEntity.ok().body(pessoaDtoOutput);
 	}
 	@CrossOrigin
 	@PostMapping
-	public ResponseEntity<Void> atualizar(@RequestBody Pessoa pessoa){
-		service.cadastrar(pessoa);	
+	public ResponseEntity<Void> atualizar(@RequestBody PessoaDtoInput newPessoa){
+		Pessoa pessoa = service.cadastrar(newPessoa);	
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(pessoa.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
@@ -61,7 +62,7 @@ public class PessoaResource {
 		return ResponseEntity.noContent().build();
 	}
 	@GetMapping(value = "/page")
-	public ResponseEntity<Page<PessoaDTO>> burcarComPaginacao(
+	public ResponseEntity<Page<PessoaDtoOutput>> burcarComPaginacao(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "size", defaultValue = "24") Integer size,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
@@ -69,7 +70,7 @@ public class PessoaResource {
 			
 			){
 		Page<Pessoa> listPage  = service.buscarComPaginacao(page, size,direction,orderBy);
-		Page<PessoaDTO> listPageDTO =  listPage.map((obj)-> new PessoaDTO(obj));
+		Page<PessoaDtoOutput> listPageDTO =  listPage.map((obj)-> new PessoaDtoOutput(obj));
 		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(listPageDTO);
 	}
 }

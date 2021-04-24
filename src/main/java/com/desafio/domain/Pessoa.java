@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.desafio.domain.dto.PessoaDtoInput;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -33,6 +34,12 @@ public class Pessoa implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.telefone = telefone;
+	}
+	public Pessoa(PessoaDtoInput obj) {
+		super();
+		id = obj.getId();
+		nome = obj.getNome();
+		telefone = obj.getNome();
 	}
 
 	public Integer getId() {
@@ -90,8 +97,5 @@ public class Pessoa implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-
-	
+	}	
 }
