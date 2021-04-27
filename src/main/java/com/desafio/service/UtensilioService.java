@@ -29,7 +29,7 @@ public class UtensilioService {
 
 	public Utensilio buscarPorId(Integer id) {
 		Optional<Utensilio> p1 = repo.findById(id);
-		return p1.orElseThrow(()-> new NotFoundResourceException("Recurso informado não encontrado. ID: "+id));
+		return p1.orElseThrow(()-> new NotFoundResourceException("Recurso informado não encontrado. Utensilio de ID: "+id));
 	}
 	public List<Utensilio> buscarTodos() {
 		List<Utensilio> list = repo.findAll();		
@@ -54,8 +54,7 @@ public class UtensilioService {
 	}
 	public Utensilio cadastrar(UtensilioDtoInput newUtensilio) {
 		try {
-			Utensilio utensilio = converteUtensilioDtoInput(newUtensilio);	
-			System.out.println("Service-CAdastrar: "+utensilio);
+			Utensilio utensilio = converteUtensilioDtoInput(newUtensilio);			
 			return repo.save(utensilio);
 		} catch (DataIntegrityViolationException e) {			
 			throw new DataIntegrityException("Pessoa não pode ser NULL. Informe uma pessoa para salvar o Utensilio");

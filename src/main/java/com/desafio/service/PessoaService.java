@@ -26,7 +26,7 @@ public class PessoaService {
 
 	public Pessoa buscarPorId(Integer id) {		
 		Optional<Pessoa> p1 = repo.findById(id);
-		return p1.orElseThrow(()-> new NotFoundResourceException("Recurso informado não encontrado. ID: "+id));
+		return p1.orElseThrow(()-> new NotFoundResourceException("Recurso informado não encontrado. Pessoa de ID: "+id));
 	}
 	
 	public List<PessoaDtoOutput> buscarTodos() {

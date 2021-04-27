@@ -2,13 +2,13 @@ package com.desafio.domain.dto;
 
 import java.io.Serializable;
 
-import com.desafio.domain.Pessoa;
 import com.desafio.domain.Utensilio;
+import com.desafio.domain.enuns.EstadoUtensilio;
 
 import lombok.Data;
 
 @Data
-public class UtensilioDtoOutput implements Serializable {
+public class UtensilioDtoOutputList implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
@@ -16,17 +16,26 @@ public class UtensilioDtoOutput implements Serializable {
 	private String urlImagem;
 	private Integer estado;
 	private Boolean disponivel;
-	private Pessoa pessoa;
 	
 		
-	public UtensilioDtoOutput(Utensilio obj) {
+	public UtensilioDtoOutputList(Utensilio obj) {
 		super();
 		id = obj.getId();
 		nome = obj.getNome();
 		urlImagem = obj.getUrlImagem();
 		estado = obj.getEstado().getCod();
-		disponivel = obj.getDisponivel();
-		pessoa = obj.getPessoa();
+		disponivel = obj.getDisponivel();		
+	}
+	
+
+	public EstadoUtensilio getEstado() {
+		return EstadoUtensilio.fromEstado(estado);
 	}
 
+	public void setEstado(EstadoUtensilio estado) {
+		this.estado = estado.getCod();
+	}
+
+		
+	
 }

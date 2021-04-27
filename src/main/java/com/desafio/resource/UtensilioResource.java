@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.desafio.domain.Utensilio;
 import com.desafio.domain.dto.UtensilioDtoInput;
 import com.desafio.domain.dto.UtensilioDtoOutput;
+import com.desafio.domain.dto.UtensilioDtoOutputList;
 import com.desafio.service.UtensilioService;
 
 @RestController
@@ -39,9 +40,9 @@ public class UtensilioResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<UtensilioDtoOutput>> burcarTodos(){
+	public ResponseEntity<List<UtensilioDtoOutputList>> burcarTodos(){
 		List<Utensilio> list  = service.buscarTodos();	
-		List<UtensilioDtoOutput> listDto = list.stream().map(x -> new UtensilioDtoOutput(x)).collect(Collectors.toList());
+		List<UtensilioDtoOutputList> listDto = list.stream().map(x -> new UtensilioDtoOutputList(x)).collect(Collectors.toList());
 		
 		return ResponseEntity.ok().header("Access-Control-Allow-Origin", "*").body(listDto);
 	}
